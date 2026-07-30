@@ -13,7 +13,7 @@ def driver():
     yield driver
     driver.quit()
 
-@pytest.fixture                #генерирует случайные валидные данные нового пользователя
+@pytest.fixture                #генерирует случайные валидные данные нового пользовател
 def valid_user():
     name = "Евгения"
     email = f"kozhevnikova_evgeniya50{random.randint(100,999)}@yandex.ru"
