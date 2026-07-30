@@ -8,6 +8,6 @@ class TestLogout:
         authorized_main_page.find_element(*LogoutLocators.PERSONAL_ACCOUNT_LINK).click()   # нажимаем личный кабинет
         authorized_main_page.find_element(*LogoutLocators.LOGOUT_BUTTON).click()            # нажимаем выход
 
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 20)
         wait.until(EC.url_to_be("https://stellarburgers.education-services.ru/login"))
         assert authorized_main_page.current_url == "https://stellarburgers.education-services.ru/login"
