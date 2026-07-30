@@ -41,7 +41,7 @@ class LoginLocators:
 
 class NavigateLocators:
     #Локаторы для перехода в конструктор
-    PERSONAL_ACCOUNT_LINK = (By.XPATH, "//p[text()='Личный Кабинет']")   # кнопка личный кабинет
+
     CONSTRUCTOR_LINK = (By.XPATH, "//p[text()='Конструктор']")           # кнопка конструктор
     LOGO_LINK = (By.CLASS_NAME, "AppHeader_header__logo__2D0X2")         # логотип Stellar Burgers
     BURGER_HEADER = (By.XPATH, "//h1[contains(text(),'Соберите бургер')]")  # заголовок для проверк
