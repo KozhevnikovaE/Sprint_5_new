@@ -15,8 +15,8 @@ def driver():
 
 @pytest.fixture                #генерирует случайные валидные данные нового пользователя
 def valid_user():
-    email = f"kozhevnikova_evgeniya50{random.randint(100,999)}@yandex.ru"
     name = "Евгения"
+    email = f"kozhevnikova_evgeniya50{random.randint(100,999)}@yandex.ru"
     password = "987654"
     return {"name": name, "email": email, "password": password}
 
@@ -27,14 +27,19 @@ def main_page(driver):
     driver.get(url)
     return driver
 
+@pytest.fixture
+def existing_user():
+    return {
+        "email": "jane123@yandex.ru",
+        "password": "123456"
+    }
 
-EXISTING_USER = {"email": "jane123@yandex.ru", "password": "123456"}
 #выполняет авторизацию
 @pytest.fixture 
-def authorized_main_page(main_page):
+def authorized_main_page(main_page, existing_user):
     main_page.find_element(By.XPATH, "//button[text()='Войти в аккаунт']").click()
-    main_page.find_element(By.XPATH, "(//input[@name='name'])").send_keys(EXISTING_USER["email"])
-    main_page.find_element(By.NAME, "Пароль").send_keys(EXISTING_USER["password"])
+    main_page.find_element(By.XPATH, "(//input[@name='name'])").send_keys(existing_user["email"])
+    main_page.find_element(By.NAME, "Пароль").send_keys(existing_user["password"])
     main_page.find_element(By.XPATH, "//button[text()='Войти']").click()
     WebDriverWait(main_page, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Оформить заказ')]")))
     return main_page

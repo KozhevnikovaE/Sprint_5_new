@@ -12,7 +12,7 @@ class RegistrationLocators:
     TITLE_LOGIN = (By.XPATH, "//h2[contains(text(),'Вход')]") #ожидаемый вывод на экран кнопки "Войти"
     MESSAGE_ERROR = (By.XPATH, "//p[contains(text(),'пароль')]")  #ожидаемый вывод на экран сообщения об ошибке
 
-class LoginViaAccountLocators:
+class LoginAccountLocators:
     # Локаторы для входа через кнопку "Личный кабинет"
     PERSONAL_ACCOUNT_LINK = (By.XPATH, "//p[text()='Личный Кабинет']")  # ссылка для входа в личный кабинет на главной странице
     EMAIL_INPUT_LOGIN = (By.XPATH, "(//input[@name='name'])")           # поле email на форме входа
