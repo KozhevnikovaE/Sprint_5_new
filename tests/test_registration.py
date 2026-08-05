@@ -26,7 +26,7 @@ class TestRegistration:
 
     def test_registration_invalid_password(self, main_page, valid_user, driver):
 
-        valid_user["password"] = "123" 
+        invalid_password = "123" 
 
         main_page.find_element(*RL.BUTTON_ENTER).click() # нажимаем кнопку войти в аккаунт
         main_page.find_element(*RL.REGISTER_LINK).click() # нажимаем ссылку на регистрацию
@@ -34,7 +34,7 @@ class TestRegistration:
         #заполняем поля
         main_page.find_element(*RL.INP_NAME).send_keys(valid_user["name"])    #поле имя 
         main_page.find_element(*RL.INP_EMAIL).send_keys(valid_user["email"])   #поле емайл
-        main_page.find_element(*RL.INP_PAS).send_keys(valid_user["password"]) #поле пароль 
+        main_page.find_element(*RL.INP_PAS).send_keys(invalid_password) #поле пароль 
 
         main_page.find_element(*RL.BUTTON_CHEKIN).click() # нажимаем кнопку зарегистрироваться
         

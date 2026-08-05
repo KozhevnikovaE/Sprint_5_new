@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 import random
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from data import BASE_URL
 
 
 @pytest.fixture               #создаёт экземпляр Chrome-драйвера
@@ -13,17 +14,10 @@ def driver():
     yield driver
     driver.quit()
 
-@pytest.fixture                #генерирует случайные валидные данные нового пользовател
-def valid_user():
-    name = "Евгения"
-    email = f"kozhevnikova_evgeniya50{random.randint(100,999)}@yandex.ru"
-    password = "987654"
-    return {"name": name, "email": email, "password": password}
-
 #принимает драйвер, открывает главную страницу приложения
 @pytest.fixture
 def main_page(driver):
-    url = "https://stellarburgers.education-services.ru/"
+    url = BASE_URL
     driver.get(url)
     return driver
 
@@ -43,3 +37,16 @@ def authorized_main_page(main_page, existing_user):
     main_page.find_element(By.XPATH, "//button[text()='Войти']").click()
     WebDriverWait(main_page, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Оформить заказ')]")))
     return main_page
+
+@pytest.fixture
+def valid_user():
+    """Генерирует уникальные данные для регистрации нового пользователя."""
+    name = "Евгения"
+    email = f"kozhevnikova_evgeniya50{random.randint(100, 999)}@yandex.ru"
+    password = "987654" 
+    
+    return {
+        "name": name,
+        "email": email,
+        "password": password
+    }
