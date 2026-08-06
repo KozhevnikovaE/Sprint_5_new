@@ -5,10 +5,8 @@ from locators import LoginLocators
 
 class TestLogin:
     @staticmethod
-    def _wait_for_order_button(driver, timeout=10):
-        """Ждёт появления кнопки в DOM и возвращает элемент."""
+    def is_order_button_visible(driver, timeout=10):
         wait = WebDriverWait(driver, timeout)
-        # presence быстрее и стабильнее для автотестов
         return wait.until(EC.presence_of_element_located(LoginLocators.ORDER_BUTTON))
 
     def test_login_main_button(self, main_page, existing_user):
@@ -17,8 +15,7 @@ class TestLogin:
         main_page.find_element(*LoginLocators.PASSWORD_INPUT).send_keys(existing_user["password"])
         main_page.find_element(*LoginLocators.SUBMIT_LOGIN).click()
 
-        order_button = self._wait_for_order_button(main_page)
-        assert order_button.is_displayed(), "Кнопка «Оформить заказ» не отображается после входа"
+        assert self.is_order_button_visible(main_page), "Кнопка «Оформить заказ» не отображается после входа"
 
     def test_login_account_icon(self, main_page, existing_user):
         main_page.find_element(*LoginLocators.ACCOUNT_LINK).click()
@@ -26,8 +23,7 @@ class TestLogin:
         main_page.find_element(*LoginLocators.PASSWORD_INPUT).send_keys(existing_user["password"])
         main_page.find_element(*LoginLocators.SUBMIT_LOGIN).click()
 
-        order_button = self._wait_for_order_button(main_page)
-        assert order_button.is_displayed(), "Кнопка «Оформить заказ» не отображается после входа"
+        assert self.is_order_button_visible(main_page), "Кнопка «Оформить заказ» не отображается после входа"
 
     def test_login_from_registration_page(self, main_page, existing_user):
         main_page.find_element(*LoginLocators.BUTTON_ENTER).click()
@@ -37,8 +33,7 @@ class TestLogin:
         main_page.find_element(*LoginLocators.PASSWORD_INPUT).send_keys(existing_user["password"])
         main_page.find_element(*LoginLocators.SUBMIT_LOGIN).click()
 
-        order_button = self._wait_for_order_button(main_page)
-        assert order_button.is_displayed(), "Кнопка «Оформить заказ» не отображается после входа"
+        assert self.is_order_button_visible(main_page), "Кнопка «Оформить заказ» не отображается после входа"
 
     def test_login_from_password_recovery(self, main_page, existing_user):
         main_page.find_element(*LoginLocators.BUTTON_ENTER).click()
@@ -48,5 +43,4 @@ class TestLogin:
         main_page.find_element(*LoginLocators.PASSWORD_INPUT).send_keys(existing_user["password"])
         main_page.find_element(*LoginLocators.SUBMIT_LOGIN).click()
 
-        order_button = self._wait_for_order_button(main_page, timeout=15)  # чуть дольше, если форма сложная
-        assert order_button.is_displayed(), "Кнопка «Оформить заказ» не отображается после входа"
+        assert self.is_order_button_visible(main_page), "Кнопка «Оформить заказ» не отображается после входа"

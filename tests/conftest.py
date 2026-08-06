@@ -1,10 +1,11 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import random
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from data import BASE_URL
+from data import BASE_URL, EXISTING_USER, LOGIN_PAGE_URL
+from helpers import valid_user as data_valid_user
+from locators import LoginLocators as LL
 
 
 @pytest.fixture               #создаёт экземпляр Chrome-драйвера
@@ -23,30 +24,18 @@ def main_page(driver):
 
 @pytest.fixture
 def existing_user():
-    return {
-        "email": "jane123@yandex.ru",
-        "password": "123456"
-    }
+    return EXISTING_USER
 
 #выполняет авторизацию
 @pytest.fixture 
 def authorized_main_page(main_page, existing_user):
-    main_page.find_element(By.XPATH, "//button[text()='Войти в аккаунт']").click()
-    main_page.find_element(By.XPATH, "(//input[@name='name'])").send_keys(existing_user["email"])
-    main_page.find_element(By.NAME, "Пароль").send_keys(existing_user["password"])
-    main_page.find_element(By.XPATH, "//button[text()='Войти']").click()
-    WebDriverWait(main_page, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Оформить заказ')]")))
+    main_page.find_element(*LL.BUTTON_ENTER).click()
+    main_page.find_element(*LL.EMAIL_INPUT).send_keys(existing_user["email"])
+    main_page.find_element(*LL.PASSWORD_INPUT).send_keys(existing_user["password"])
+    main_page.find_element(*LL.SUBMIT_LOGIN).click()
+    WebDriverWait(main_page, 10).until(EC.visibility_of_element_located(LL.ORDER_BUTTON))
     return main_page
 
 @pytest.fixture
 def valid_user():
-    """Генерирует уникальные данные для регистрации нового пользователя."""
-    name = "Евгения"
-    email = f"kozhevnikova_evgeniya50{random.randint(100, 999)}@yandex.ru"
-    password = "987654" 
-    
-    return {
-        "name": name,
-        "email": email,
-        "password": password
-    }
+    return data_valid_user()
